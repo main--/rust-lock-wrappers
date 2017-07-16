@@ -2,7 +2,7 @@
 name = "lock-wrappers"
 description = "Lock RAII wrappers"
 license = "MIT"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["main() <main@ehvag.de>"]
 
 [dependencies]
