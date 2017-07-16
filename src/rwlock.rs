@@ -11,7 +11,7 @@ unsafe impl<L: RawRwLock, T: Send + Sync> Send for RwLock<L, T> {}
 unsafe impl<L: RawRwLock, T: Send + Sync> Sync for RwLock<L, T> {}
 
 impl<L: RawRwLock, T> RwLock<L, T> {
-    pub fn new(l: L, t: T) -> RwLock<L, T> {
+    pub fn new_custom(l: L, t: T) -> RwLock<L, T> {
         RwLock {
             rwlock: l,
             data: UnsafeCell::new(t),
@@ -35,9 +35,18 @@ impl<L: RawRwLock, T> RwLock<L, T> {
     }
 }
 
+impl<L: RawRwLock + Default, T> RwLock<L, T> {
+    pub fn new(t: T) -> RwLock<L, T> {
+        RwLock {
+            rwlock: L::default(),
+            data: UnsafeCell::new(t),
+        }
+    }
+}
+
 impl<L: RawRwLock + Default, T: Default> Default for RwLock<L, T> {
     fn default() -> RwLock<L, T> {
-        RwLock::new(Default::default(), Default::default())
+        RwLock::new(Default::default())
     }
 }
 
